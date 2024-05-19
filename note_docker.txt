@@ -1,0 +1,19 @@
+docker network create midterm
+
+cd roles/database
+docker build -t mydb .
+docker run -d --name=db --network=midterm -p 27017:27017 mydb
+
+cd roles/backend
+docker build -t back-end .
+docker run -d --name=be --network=midterm -p 8000:8000 back-end
+
+cd roles/front-end
+docker build -t front-end .
+docker run -d --name=fe --network=midterm -p 80:80 front-end
+
+
+
+lưu ý, đường dẫn trong backend sẽ phải là mongo://db:27017
+tương tự với 
+
