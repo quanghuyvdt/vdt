@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  database:
+    build:
+      context: ./database/
+      dockerfile: Dockerfile
+    image: database
+    container_name: db
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+  backend:
+    build:
+      context: ./backend/
+      dockerfile: Dockerfile
+    image: backend
+    container_name: be
+    depends_on:
+      - database
+    environment:
+      - DATABASE_HOST=database
+    ports:
+      - "8000:8000"
+
+  front-end:
+    build:
+      context: ./front-end/
+      dockerfile: Dockerfile
+    image: frontend
+    container_name: fe
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    environment:
+      - REACT_APP_API_URL=http://backend:5000/api
+
+volumes:
+  mongo_data:
