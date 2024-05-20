@@ -1,0 +1,21 @@
+name: CI Test
+
+on:
+  push:
+    branches: [ "*" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build_and_test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Build and Run images
+      run: docker compose -f roles/docker-compose.yaml up -d
+      
+    - name: Run tests
+      run: docker exec be python test.py
