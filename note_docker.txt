@@ -15,5 +15,5 @@ docker run -d --name=fe --network=midterm -p 80:80 front-end
 
 
 lưu ý, đường dẫn trong backend sẽ phải là mongo://db:27017
-tương tự với 
+tương tự với be
 
